@@ -1,0 +1,13 @@
+moviepy
+torch==2.4.1
+torchaudio==2.4.1
+torchvision==0.19.1
+soundfile
+librosa
+pydub
+transformers
+langchain
+langchain_huggingface
+huggingface-hub
+audioread
+accelerate
