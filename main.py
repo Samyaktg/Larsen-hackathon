@@ -814,12 +814,51 @@ class VideoProcessor:
         blurred_output = os.path.join(temp_folder, "clean_video.mp4")
         
         try:
+            # Extract all keyframes from video for reference if needed
+            # This is to ensure sorted_keyframes is not empty
+            cap = cv2.VideoCapture(self.video_path)
+            fps = cap.get(cv2.CAP_PROP_FPS)
+            total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            duration = total_frames / fps if fps > 0 else 0
+            cap.release()
+            
+            # Create a simple keyframe list with just start and end frames
+            # to provide to blur_copyright_frames if no keyframes available
+            all_keyframes = []
+            if len(self.copyright_keyframes) == 0 and len(self.nsfw_keyframes) == 0:
+                # If no frames to blur, create placeholder keyframe list
+                # using first and last frame to ensure function works properly
+                key_frames_folder = os.path.join(temp_folder, "key_frames")
+                os.makedirs(key_frames_folder, exist_ok=True)
+                
+                # Get first frame
+                cap = cv2.VideoCapture(self.video_path)
+                ret, frame = cap.read()
+                if ret:
+                    first_frame_path = os.path.join(key_frames_folder, "frame_0.jpg")
+                    cv2.imwrite(first_frame_path, frame)
+                    all_keyframes.append((0, 0.0, first_frame_path))
+                
+                # Get last frame
+                if total_frames > 1:
+                    cap.set(cv2.CAP_PROP_POS_FRAMES, total_frames-1)
+                    ret, frame = cap.read()
+                    if ret:
+                        last_frame_path = os.path.join(key_frames_folder, f"frame_{total_frames-1}.jpg")
+                        cv2.imwrite(last_frame_path, frame)
+                        all_keyframes.append((total_frames-1, (total_frames-1)/fps, last_frame_path))
+                
+                cap.release()
+                
+                # Log that we're using placeholder keyframes
+                print(f"No frames to blur - using {len(all_keyframes)} placeholder keyframes")
+            
             # Call blur function with the user-selected frames
             blur_copyright_frames(
                 self.video_path, 
                 blurred_output, 
                 self.copyright_keyframes,  # User-approved copyright frames
-                [],  # No need for all keyframes  
+                all_keyframes if len(all_keyframes) > 0 else None,  # Provide reference keyframes or None
                 use_gpu=self.use_gpu,
                 audio_path=None,  # Use original audio
                 nsfw_keyframes=self.nsfw_keyframes  # User-approved NSFW frames
