@@ -4,7 +4,7 @@
 
 ### Team Members
 - **Khush Trivedi**
-- **Samyak Bhansali** (PID: 3680)
+- **Samyak Bhansali** 
 - **Dhruv Kapur**
 - **Mentor:** Siba Panda
 
@@ -74,13 +74,6 @@ Our AI-powered application is designed to:
 5. **Pilot testing** to validate accuracy and performance.
 6. **Monetization strategy** through subscriptions and enterprise partnerships.
 7. **Future enhancements** to improve compliance coverage and automation.
-
-## Estimated Costs for MVP
-| Expense | Cost Estimate |
-|---------|--------------|
-| Cloud Server Scaling (AWS/GCP/Azure) | ₹10,000 - ₹50,000/month |
-| API Maintenance & Customer Support | ₹50,000 - ₹1,00,000/month |
-| Marketing & Business Development | ₹1,00,000 - ₹5,00,000 |
 
 ## Conclusion
 Our project provides an efficient AI-powered content moderation system capable of real-time analysis for large-scale platforms. With a scalable and adaptable architecture, the system ensures compliance with international regulations while maintaining content integrity. Through strategic optimizations and phased feature rollouts, the project is well-positioned for real-world deployment, monetization, and future enhancements.
